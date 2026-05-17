@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>RanzAI Design — Generator Desain Spanduk & Baliho</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:        #e8f4fb;
+  --bg2:       #f0f8fd;
+  --bg3:       #ffffff;
+  --bg4:       #ddeef8;
+  --border:    rgba(0,120,200,0.10);
+  --border-h:  rgba(0,120,200,0.22);
+  --text:      #0a1628;
+  --muted:     #1e4060;
+  --dim:       #4a7a9b;
+  --accent:    #0ea5e9;
+  --accent-d:  #0369a1;
+  --accent2:   #06b6d4;
+  --green:     #10b981;
+  --rose:      #f43f5e;
+  --r:         14px;
+  --rs:        9px;
+  --shadow:    0 4px 24px rgba(14,165,233,.10);
+  --shadow-sm: 0 2px 10px rgba(14,165,233,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  font-size:15px;
+  line-height:1.65;
+  min-height:100vh;
+}
+
+/* ── BG MESH ── */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% -10%, rgba(14,165,233,.13) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at -10% 80%, rgba(6,182,212,.10) 0%, transparent 60%);
+  pointer-events:none;z-index:0;
+}
+
+/* ── TOPBAR ── */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 64px;height:62px;
+  border-bottom:1px solid var(--border);
+  background:rgba(240,248,253,.85);
+  backdrop-filter:blur(16px);
+  position:sticky;top:0;z-index:100;
+}
+.logo{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:20px;
+  display:flex;align-items:center;gap:9px;color:var(--text);letter-spacing:-.3px;
+}
+.logo-icon{
+  width:34px;height:34px;border-radius:9px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 10px rgba(14,165,233,.35);
+}
+.logo-icon svg{width:18px;height:18px;color:#fff;}
+.nav-links{display:flex;gap:2px;}
+.nav-links a{
+  color:#1a3f5c;text-decoration:none;font-size:13.5px;
+  padding:5px 13px;border-radius:var(--rs);transition:all .15s;font-weight:500;
+}
+.nav-links a:hover{color:var(--text);background:var(--bg4);}
+.nav-cta{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;font-weight:600;font-size:13.5px;
+  padding:7px 18px;border-radius:var(--rs);text-decoration:none;
+  box-shadow:0 2px 12px rgba(14,165,233,.3);transition:opacity .15s,box-shadow .15s;
+}
+.nav-cta:hover{opacity:.9;box-shadow:0 4px 18px rgba(14,165,233,.4);}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:6px;box-shadow:0 0 0 2px rgba(14,165,233,.25);}
+
+/* ── LAYOUT ── */
+.app{
+  display:grid;grid-template-columns:480px 1fr;
+  min-height:calc(100vh - 62px);
+  position:relative;z-index:1;
+}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  border-right:1px solid var(--border);
+  padding:36px 36px;
+  overflow-y:auto;
+  background:rgba(240,248,253,.6);
+  backdrop-filter:blur(8px);
+  display:flex;flex-direction:column;gap:26px;
+}
+.section-title{
+  font-family:'Syne',sans-serif;font-size:10.5px;font-weight:700;
+  letter-spacing:.09em;text-transform:uppercase;
+  color:#2d6a8f;margin-bottom:9px;
+}
+
+/* chips */
+.chip-wrap{display:flex;flex-wrap:wrap;gap:6px;}
+.chip{
+  padding:5px 14px;border-radius:999px;
+  border:1px solid var(--border);font-size:13px;cursor:pointer;
+  color:#1a3f5c;background:var(--bg3);
+  transition:all .15s;user-select:none;font-weight:500;
+  box-shadow:var(--shadow-sm);
+}
+.chip:hover{border-color:var(--border-h);color:var(--text);}
+.chip.on{
+  background:linear-gradient(135deg,rgba(14,165,233,.12),rgba(6,182,212,.08));
+  border-color:rgba(14,165,233,.4);color:var(--accent-d);font-weight:600;
+}
+
+/* form */
+label{display:block;font-size:12px;color:#1a3f5c;margin-bottom:6px;font-weight:500;}
+textarea,input[type=text],input[type=password],select{
+  width:100%;
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:var(--rs);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;font-size:14px;
+  padding:9px 12px;outline:none;
+  transition:border-color .15s,box-shadow .15s;
+  box-shadow:var(--shadow-sm);
+}
+textarea:focus,input:focus,select:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(14,165,233,.12);
+}
+textarea{min-height:82px;resize:vertical;line-height:1.5;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+/* swatches */
+.swatch-wrap{display:flex;flex-wrap:wrap;gap:8px;}
+.swatch{
+  width:28px;height:28px;border-radius:50%;cursor:pointer;
+  border:2.5px solid transparent;transition:all .15s;
+  box-shadow:0 1px 4px rgba(0,0,0,.12);
+}
+.swatch:hover{transform:scale(1.14);}
+.swatch.on{border-color:var(--accent);box-shadow:0 0 0 3px rgba(14,165,233,.2);}
+
+/* api key */
+.apikey-row{
+  background:rgba(14,165,233,.05);
+  border:1px solid rgba(14,165,233,.15);
+  border-radius:var(--r);padding:13px;
+}
+.apikey-row p{font-size:12px;color:#1a3f5c;margin-bottom:8px;line-height:1.55;}
+
+/* prompt box */
+.prompt-box{
+  background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);
+  padding:12px 14px;font-size:12.5px;color:#1a3f5c;
+  line-height:1.65;min-height:52px;box-shadow:var(--shadow-sm);
+}
+.prompt-box em{color:var(--accent-d);font-style:normal;font-weight:600;}
+
+/* generate btn */
+.gen-btn{
+  width:100%;padding:13px;border-radius:var(--r);border:none;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;
+  font-family:'Syne',sans-serif;font-size:15px;font-weight:700;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:opacity .15s,transform .1s,box-shadow .15s;
+  box-shadow:0 4px 18px rgba(14,165,233,.35);letter-spacing:.01em;
+}
+.gen-btn:hover{opacity:.92;box-shadow:0 6px 24px rgba(14,165,233,.45);}
+.gen-btn:active{transform:scale(.985);}
+.gen-btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none;}
+.spinner{width:16px;height:16px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .65s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ── CANVAS ── */
+.canvas{background:var(--bg);display:flex;flex-direction:column;}
+.canvas-toolbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 44px;border-bottom:1px solid var(--border);gap:12px;flex-wrap:wrap;
+  background:rgba(240,248,253,.7);backdrop-filter:blur(8px);
+}
+.canvas-toolbar h2{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text);}
+.toolbar-right{display:flex;gap:8px;align-items:center;}
+.tbtn{
+  display:flex;align-items:center;gap:6px;padding:6px 13px;
+  border-radius:var(--rs);border:1px solid var(--border);
+  background:var(--bg3);color:#1a3f5c;font-size:13px;cursor:pointer;
+  transition:all .15s;font-family:'DM Sans',sans-serif;font-weight:500;
+  box-shadow:var(--shadow-sm);
+}
+.tbtn:hover{border-color:var(--border-h);color:var(--text);}
+.tbtn.primary{
+  background:linear-gradient(135deg,rgba(14,165,233,.1),rgba(6,182,212,.07));
+  border-color:rgba(14,165,233,.3);color:var(--accent-d);
+}
+.tbtn:disabled{opacity:.4;cursor:not-allowed;}
+.tbtn svg{width:14px;height:14px;flex-shrink:0;}
+
+/* result */
+.canvas-body{flex:1;display:flex;align-items:center;justify-content:center;padding:52px 60px;}
+.result-area{width:100%;max-width:920px;}
+.result-frame{
+  width:100%;aspect-ratio:16/6;border-radius:var(--r);
+  border:1px solid var(--border);overflow:hidden;
+  background:var(--bg3);display:flex;align-items:center;justify-content:center;
+  position:relative;box-shadow:0 8px 40px rgba(14,165,233,.10);
+}
+.result-frame img{width:100%;height:100%;object-fit:cover;display:none;}
+.placeholder{display:flex;flex-direction:column;align-items:center;gap:14px;color:var(--dim);}
+.placeholder svg{width:52px;height:52px;opacity:.3;color:var(--accent);}
+.placeholder p{font-size:14px;color:#1a3f5c;font-weight:500;}
+.placeholder small{font-size:12px;color:var(--dim);}
+
+/* loading */
+.loading-overlay{
+  position:absolute;inset:0;
+  background:rgba(232,244,251,.82);backdrop-filter:blur(6px);
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  border-radius:var(--r);
+}
+.loading-overlay.show{display:flex;}
+.big-spinner{
+  width:44px;height:44px;
+  border:3px solid rgba(14,165,233,.2);border-top-color:var(--accent);
+  border-radius:50%;animation:spin .75s linear infinite;
+}
+.loading-overlay p{font-size:13px;color:#1a3f5c;font-weight:500;}
+
+/* meta */
+.result-meta{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:14px;flex-wrap:wrap;gap:10px;
+}
+.meta-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.tag{
+  font-size:11.5px;padding:3px 11px;border-radius:999px;
+  border:1px solid var(--border);color:#1a3f5c;
+  background:var(--bg3);font-weight:500;
+}
+.tag.accent{border-color:rgba(14,165,233,.3);color:var(--accent-d);background:rgba(14,165,233,.07);}
+
+/* history */
+.history-strip{
+  border-top:1px solid var(--border);
+  padding:18px 44px;display:flex;gap:10px;overflow-x:auto;align-items:flex-start;
+  background:rgba(240,248,253,.5);
+}
+.hist-item{display:flex;flex-direction:column;gap:4px;cursor:pointer;flex-shrink:0;}
+.hist-thumb{
+  width:118px;height:45px;border-radius:var(--rs);
+  border:1px solid var(--border);background:var(--bg4);overflow:hidden;
+  transition:border-color .15s,box-shadow .15s;
+}
+.hist-thumb:hover{border-color:rgba(14,165,233,.35);box-shadow:0 2px 10px rgba(14,165,233,.15);}
+.hist-thumb img{width:100%;height:100%;object-fit:cover;}
+.hist-lbl{font-size:11px;color:#1a3f5c;white-space:nowrap;font-weight:500;}
+.history-empty{font-size:13px;color:#2d6a8f;display:flex;align-items:center;min-height:45px;}
+
+/* badge */
+.badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  padding:3px 10px;border-radius:999px;border:1px solid;
+}
+.badge.red{color:#e8476a;border-color:rgba(232,71,106,.3);background:rgba(232,71,106,.07);}
+.badge.blue{color:var(--accent-d);border-color:rgba(14,165,233,.3);background:rgba(14,165,233,.07);}
+
+/* toast */
+.toast{
+  position:fixed;bottom:24px;right:24px;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--r);padding:11px 18px;
+  font-size:13.5px;color:var(--text);box-shadow:0 8px 32px rgba(0,0,0,.12);z-index:999;
+  transform:translateY(70px);opacity:0;transition:all .3s cubic-bezier(.4,0,.2,1);pointer-events:none;
+  font-weight:500;
+}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{border-color:rgba(16,185,129,.3);color:var(--green);}
+.toast.error{border-color:rgba(244,63,94,.3);color:var(--rose);}
+
+/* scrollbar */
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:99px;}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .app{grid-template-columns:1fr;}
+  .sidebar{border-right:none;border-bottom:1px solid var(--border);}
+}
+@media(max-width:600px){
+  .topbar{padding:0 16px;}
+  .nav-links{display:none;}
+  .sidebar{padding:18px 14px;}
+  .canvas-toolbar,.history-strip{padding:12px 14px;}
+  .canvas-body{padding:20px 14px;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<nav class="topbar">
+  <div class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M10 2l1.5 4.5L16 8l-4.5 1.5L10 14l-1.5-4.5L4 8l4.5-1.5z"/></svg>
+    </div>
+    RanzAI Design
+  </div>
+  <div class="nav-links">
+    <a href="#"><span class="nav-dot" style="display:inline-block;vertical-align:middle;"></span>Generator</a>
+    <a href="#">Riwayat</a>
+    <a href="#">Panduan</a>
+    <a href="#">Harga</a>
+  </div>
+  <a href="#" class="nav-cta">Coba Gratis</a>
+</nav>
+
+<!-- APP -->
+<div style="max-width:1560px;margin:0 auto;padding:0 32px;box-sizing:border-box;">
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div>
+      <div class="section-title">Kategori Spanduk</div>
+      <div class="chip-wrap" id="kat">
+        <div class="chip on" data-v="Acara / Event">Acara / Event</div>
+        <div class="chip" data-v="Promosi Bisnis">Promosi Bisnis</div>
+        <div class="chip" data-v="Politik / Kampanye">Politik</div>
+        <div class="chip" data-v="Pendidikan">Pendidikan</div>
+        <div class="chip" data-v="Kesehatan">Kesehatan</div>
+        <div class="chip" data-v="Religi / Hari Besar">Religi</div>
+        <div class="chip" data-v="Pemerintahan">Pemerintahan</div>
+        <div class="chip" data-v="Olahraga">Olahraga</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title">Redaksi / Teks Konten</div>
+      <textarea id="redaksi" placeholder="Contoh:&#10;Selamat Hari Jadi Kota Biak ke-75&#10;Pemerintah Kabupaten Biak Numfor&#10;14 Maret 2025"></textarea>
+    </div>
+
+    <div class="row2">
+      <div>
+        <div class="section-title">Ukuran / Rasio</div>
+        <select id="ukuran">
+          <option value="horizontal spanduk 4:1">Spanduk (4:1)</option>
+          <option value="baliho portrait 3:4">Baliho portrait (3:4)</option>
+          <option value="square 1:1">Kotak / sosmed (1:1)</option>
+          <option value="wide billboard 16:5">Baliho lebar (16:5)</option>
+          <option value="vertical banner 1:3">Banner vertikal (1:3)</option>
+        </select>
+      </div>
+      <div>
+        <div class="section-title">Gaya Desain</div>
+        <select id="gaya">
+          <option value="modern and professional">Modern profesional</option>
+          <option value="traditional Indonesian batik motif">Batik tradisional</option>
+          <option value="festive and colorful">Meriah & colorful</option>
+          <option value="minimalist clean">Minimalis</option>
+          <option value="elegant luxury gold">Elegan / mewah</option>
+          <option value="bold typographic">Bold tipografi</option>
+        </select>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title">Warna Dominan</div>
+      <div class="swatch-wrap" id="warna">
+        <div class="swatch on" data-v="red and gold" style="background:linear-gradient(135deg,#c0392b,#f5c842)" title="Merah & Emas"></div>
+        <div class="swatch" data-v="blue and white" style="background:linear-gradient(135deg,#1e5fa5,#e8f4fd)" title="Biru & Putih"></div>
+        <div class="swatch" data-v="green and yellow" style="background:linear-gradient(135deg,#27ae60,#f1c40f)" title="Hijau & Kuning"></div>
+        <div class="swatch" data-v="purple and silver" style="background:linear-gradient(135deg,#6c3483,#bdc3c7)" title="Ungu & Perak"></div>
+        <div class="swatch" data-v="orange and black" style="background:linear-gradient(135deg,#e67e22,#1a1a1a)" title="Oranye & Hitam"></div>
+        <div class="swatch" data-v="maroon and gold" style="background:linear-gradient(135deg,#7b241c,#d4ac0d)" title="Merah Tua & Emas"></div>
+        <div class="swatch" data-v="dark navy and white" style="background:linear-gradient(135deg,#1a2a4a,#ecf0f1)" title="Navy & Putih"></div>
+        <div class="swatch" data-v="green and white" style="background:linear-gradient(135deg,#1e8449,#fff)" title="Hijau & Putih"></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title">Elemen Tambahan <span style="font-weight:400;opacity:.7;">(bisa pilih beberapa)</span></div>
+      <div class="chip-wrap" id="elemen">
+        <div class="chip" data-v="with Indonesian flag ornament">Ornamen Bendera</div>
+        <div class="chip" data-v="with batik border pattern">Border Batik</div>
+        <div class="chip" data-v="with floral decoration">Dekorasi Bunga</div>
+        <div class="chip" data-v="with star and crescent moon">Bintang & Bulan</div>
+        <div class="chip" data-v="with geometric pattern">Geometris</div>
+        <div class="chip" data-v="with ribbon and seal">Pita & Stempel</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title">Preview Prompt AI</div>
+      <div class="prompt-box" id="prompt-preview">—</div>
+    </div>
+
+    <div class="apikey-row">
+      <p>Masukkan OpenAI API key untuk generate gambar sungguhan. Tanpa key, jalankan mode simulasi.</p>
+      <label>OpenAI API Key (opsional)</label>
+      <input type="password" id="apikey" placeholder="sk-proj-..."/>
+    </div>
+
+    <button class="gen-btn" id="genbtn" onclick="generate()">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" width="18" height="18"><path d="M10 2l1.5 4.5L16 8l-4.5 1.5L10 14l-1.5-4.5L4 8l4.5-1.5z"/></svg>
+      Generate Desain
+    </button>
+
+  </aside>
+
+  <!-- CANVAS -->
+  <main class="canvas">
+
+    <div class="canvas-toolbar">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <h2>Hasil Desain</h2>
+        <span class="badge blue" id="status-badge">Siap</span>
+      </div>
+      <div class="toolbar-right">
+        <button class="tbtn" onclick="copyPrompt()">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M11 5V3.5A1.5 1.5 0 009.5 2H3.5A1.5 1.5 0 002 3.5v6A1.5 1.5 0 003.5 11H5"/></svg>
+          Salin Prompt
+        </button>
+        <button class="tbtn" onclick="generate()">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 8a6 6 0 1010.8-3.6M13 2l-.2 3.8L9 5"/></svg>
+          Ulangi
+        </button>
+        <button class="tbtn primary" id="dlbtn" onclick="downloadImg()" disabled>
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v8m0 0l-3-3m3 3l3-3M2 12.5h12"/></svg>
+          Unduh
+        </button>
+      </div>
+    </div>
+
+    <div class="canvas-body">
+      <div class="result-area">
+        <div class="result-frame" id="frame">
+          <div class="placeholder" id="placeholder">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3">
+              <rect x="4" y="10" width="40" height="28" rx="3"/>
+              <circle cx="16" cy="20" r="4"/>
+              <path d="M4 32l10-8 8 6 6-4 16 12"/>
+            </svg>
+            <p>Hasil desain akan muncul di sini</p>
+            <small>Isi form di kiri, lalu klik Generate Desain</small>
+          </div>
+          <img id="result-img" alt="Hasil desain spanduk"/>
+          <div class="loading-overlay" id="loading">
+            <div class="big-spinner"></div>
+            <p id="loading-text">Mengirim ke AI...</p>
+          </div>
+        </div>
+
+        <div class="result-meta" id="result-meta" style="display:none;">
+          <div class="meta-tags" id="meta-tags"></div>
+          <div style="font-size:12px;color:#1a3f5c;font-weight:500;" id="gen-time"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="history-strip" id="hist-strip">
+      <div class="history-empty" id="hist-empty">Riwayat generate akan tampil di sini</div>
+    </div>
+
+  </main>
+</div>
+</div><!-- end wrapper -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+let selKat    = 'Acara / Event';
+let selWarna  = 'red and gold';
+let selElemen = [];
+let genStart  = 0;
+window._currentImgUrl = null;
+
+document.querySelectorAll('#kat .chip').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('#kat .chip').forEach(x => x.classList.remove('on'));
+    c.classList.add('on'); selKat = c.dataset.v; updatePrompt();
+  });
+});
+
+document.querySelectorAll('#warna .swatch').forEach(s => {
+  s.addEventListener('click', () => {
+    document.querySelectorAll('#warna .swatch').forEach(x => x.classList.remove('on'));
+    s.classList.add('on'); selWarna = s.dataset.v; updatePrompt();
+  });
+});
+
+document.querySelectorAll('#elemen .chip').forEach(c => {
+  c.addEventListener('click', () => {
+    c.classList.toggle('on');
+    selElemen = [...document.querySelectorAll('#elemen .chip.on')].map(x => x.dataset.v);
+    updatePrompt();
+  });
+});
+
+document.getElementById('redaksi').addEventListener('input', updatePrompt);
+document.getElementById('ukuran').addEventListener('change', updatePrompt);
+document.getElementById('gaya').addEventListener('change', updatePrompt);
+
+function buildPrompt() {
+  const redaksi = document.getElementById('redaksi').value.trim();
+  const ukuran  = document.getElementById('ukuran').value;
+  const gaya    = document.getElementById('gaya').value;
+  const extras  = selElemen.length ? ', ' + selElemen.join(', ') : '';
+  const teks    = redaksi ? `featuring the text "${redaksi}", ` : '';
+  return `A ${gaya} Indonesian ${selKat.toLowerCase()} banner design, ${ukuran} ratio, ${teks}dominant color: ${selWarna}${extras}. High resolution, print-ready, professional graphic design, bold clear typography, no watermark.`;
+}
+
+function updatePrompt() {
+  const p   = buildPrompt();
+  const box = document.getElementById('prompt-preview');
+  box.innerHTML = p
+    .replace(selKat.toLowerCase(), `<em>${selKat.toLowerCase()}</em>`)
+    .replace(selWarna, `<em>${selWarna}</em>`);
+}
+
+async function generate() {
+  const btn    = document.getElementById('genbtn');
+  const apiKey = document.getElementById('apikey').value.trim();
+  const prompt = buildPrompt();
+  genStart = Date.now();
+
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div> Generating...';
+
+  const badge   = document.getElementById('status-badge');
+  badge.textContent = 'Generating...';
+  badge.className   = 'badge red';
+
+  const loading = document.getElementById('loading');
+  const loadTxt = document.getElementById('loading-text');
+  loading.classList.add('show');
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('result-img').style.display  = 'none';
+  document.getElementById('result-meta').style.display = 'none';
+  document.getElementById('dlbtn').disabled = true;
+
+  const msgs = ['Mengirim ke AI...','Membangun komposisi...','Memilih warna & layout...','Merender detail...','Hampir selesai...'];
+  let mi = 0;
+  const ticker = setInterval(() => { loadTxt.textContent = msgs[++mi % msgs.length]; }, 1800);
+
+  try {
+    if (!apiKey) {
+      await new Promise(r => setTimeout(r, 2800));
+      clearInterval(ticker);
+      const cat = selKat.replace(/\s*\/\s*.*/,'');
+      showImage(`https://placehold.co/1792x1024/e8f4fb/0ea5e9?text=${encodeURIComponent('SIMULASI — ' + cat)}`, true);
+    } else {
+      const res  = await fetch('https://api.openai.com/v1/images/generations', {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json','Authorization':'Bearer ' + apiKey },
+        body: JSON.stringify({ model:'dall-e-3', prompt, n:1, size:'1792x1024', quality:'standard' })
+      });
+      const data = await res.json();
+      clearInterval(ticker);
+      if (data.data?.[0]?.url) showImage(data.data[0].url, false);
+      else throw new Error(data.error?.message || 'Gagal generate');
+    }
+  } catch(e) {
+    clearInterval(ticker);
+    loading.classList.remove('show');
+    document.getElementById('placeholder').style.display = 'flex';
+    badge.textContent = 'Error'; badge.className = 'badge red';
+    toast('Error: ' + e.message, 'error');
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" width="18" height="18"><path d="M10 2l1.5 4.5L16 8l-4.5 1.5L10 14l-1.5-4.5L4 8l4.5-1.5z"/></svg> Generate Desain';
+}
+
+function showImage(url, sim) {
+  const img = document.getElementById('result-img');
+  img.onload = () => {
+    document.getElementById('loading').classList.remove('show');
+    img.style.display = 'block';
+    document.getElementById('result-meta').style.display = 'flex';
+    document.getElementById('dlbtn').disabled = false;
+    window._currentImgUrl = url;
+
+    const sel       = id => document.getElementById(id);
+    const ukuranTxt = sel('ukuran').options[sel('ukuran').selectedIndex].text;
+    const gayaTxt   = sel('gaya').options[sel('gaya').selectedIndex].text;
+    const elapsed   = ((Date.now() - genStart) / 1000).toFixed(1);
+
+    sel('meta-tags').innerHTML =
+      [selKat, ukuranTxt, gayaTxt].map(t => `<span class="tag">${t}</span>`).join('') +
+      `<span class="tag accent">${sim ? 'Simulasi' : 'DALL-E 3'}</span>`;
+    sel('gen-time').textContent = elapsed + 's';
+
+    const badge = document.getElementById('status-badge');
+    badge.textContent = 'Selesai'; badge.className = 'badge blue';
+
+    addHistory(url, selKat);
+    toast(sim ? 'Simulasi berhasil — masukkan API key untuk gambar nyata' : 'Desain berhasil digenerate!', 'success');
+  };
+  img.onerror = () => {
+    document.getElementById('loading').classList.remove('show');
+    document.getElementById('placeholder').style.display = 'flex';
+    toast('Gagal memuat gambar', 'error');
+  };
+  img.src = url;
+}
+
+function addHistory(url, label) {
+  const strip = document.getElementById('hist-strip');
+  const empty = document.getElementById('hist-empty');
+  if (empty) empty.remove();
+  const item = document.createElement('div');
+  item.className = 'hist-item';
+  item.innerHTML = `<div class="hist-thumb"><img src="${url}" alt="${label}"/></div><div class="hist-lbl">${label.replace(/\s*\/\s*.*/,'')}</div>`;
+  item.addEventListener('click', () => {
+    const ri = document.getElementById('result-img');
+    ri.src = url; ri.style.display = 'block';
+    window._currentImgUrl = url;
+    document.getElementById('placeholder').style.display = 'none';
+    document.getElementById('dlbtn').disabled = false;
+  });
+  strip.insertBefore(item, strip.firstChild);
+  if (strip.children.length > 8) strip.removeChild(strip.lastChild);
+}
+
+function copyPrompt() {
+  navigator.clipboard.writeText(buildPrompt())
+    .then(() => toast('Prompt disalin!', 'success'))
+    .catch(() => toast('Gagal menyalin', 'error'));
+}
+
+function downloadImg() {
+  if (!window._currentImgUrl) return;
+  const a = document.createElement('a');
+  a.href = window._currentImgUrl;
+  a.download = `banner-${selKat.replace(/\W+/g,'-')}-${Date.now()}.png`;
+  a.target = '_blank'; a.click();
+}
+
+function toast(msg, type = '') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className   = 'toast ' + type + ' show';
+  setTimeout(() => { el.className = 'toast ' + type; }, 3200);
+}
+
+updatePrompt();
+</script>
+</body>
+</html>
