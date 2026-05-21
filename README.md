@@ -28,6 +28,7 @@ http://localhost:3000
 
 Copy `.env.example` menjadi `.env.local`, lalu isi key yang dibutuhkan.
 
+ 
 ## MVP Feature
 
 - Landing page
