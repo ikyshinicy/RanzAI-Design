@@ -1,136 +1,241 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Sparkles, Palette, Type, LayoutTemplate, PenLine, Wand2 } from "lucide-react";
+import {
+  Sparkles,
+  Palette,
+  Type,
+  LayoutTemplate,
+  PenLine,
+  Wand2,
+  Moon,
+  Sun,
+} from "lucide-react";
 
 const tools = [
   {
-    title: "AI Design Brief",
-    desc: "Bantu susun arahan desain dari kebutuhan mentah menjadi brief profesional.",
+    title: "Spanduk Generator",
+    desc: "Buat layout spanduk otomatis untuk percetakan.",
     icon: PenLine,
   },
   {
-    title: "Prompt Helper",
-    desc: "Ubah konsep desain menjadi prompt AI visual yang rapi dan siap pakai.",
+    title: "Baliho Layout",
+    desc: "Bantu susun komposisi baliho profesional.",
+    icon: LayoutTemplate,
+  },
+  {
+    title: "Prompt Visual",
+    desc: "Generate prompt AI visual siap pakai.",
     icon: Wand2,
   },
   {
     title: "Color Palette",
-    desc: "Rekomendasi warna sesuai brand, mood, dan target audience.",
+    desc: "Warna otomatis sesuai style desain.",
     icon: Palette,
   },
   {
-    title: "Typography Helper",
-    desc: "Bantu pilih gaya font yang cocok untuk desain.",
+    title: "Typography",
+    desc: "Bantu pilih font untuk banner & poster.",
     icon: Type,
   },
   {
-    title: "Layout Suggestion",
-    desc: "Bantu susun komposisi poster, banner, konten, dan iklan.",
-    icon: LayoutTemplate,
-  },
-  {
-    title: "Copywriting Helper",
-    desc: "Bantu buat headline, CTA, dan teks promosi.",
+    title: "AI Copywriting",
+    desc: "Generate headline dan CTA promosi.",
     icon: Sparkles,
   },
 ];
 
 export default function HomePage() {
+  const [darkMode, setDarkMode] = useState(true);
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [darkMode]);
+
   return (
-    <main className="min-h-screen bg-[#07070A] text-white">
-      <section className="mx-auto max-w-6xl px-6 py-8">
-        <nav className="flex items-center justify-between">
-          <div className="text-xl font-bold tracking-tight">
-            RanzAI<span className="text-cyan-400"> Design</span>
-          </div>
-
-          <div className="hidden gap-6 text-sm text-zinc-300 md:flex">
-            <a href="#tools">Tools</a>
-            <a href="#pricing">Pricing</a>
-            <a href="#about">About</a>
-          </div>
-
-          <Link
-            href="/tools/design-brief"
-            className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-black"
-          >
-            Try Tools
-          </Link>
-        </nav>
-
-        <div className="grid items-center gap-10 py-24 md:grid-cols-2">
-          <div>
-            <div className="mb-5 inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-sm text-cyan-300">
-              AI Co-Designer for Creator & UMKM
+    <main className="min-h-screen bg-[#f0f7ff] text-[#0d1f3c] transition-all dark:bg-[#07070A] dark:text-white">
+      {/* HEADER */}
+      <header className="sticky top-0 z-50 border-b border-zinc-200 bg-white/70 backdrop-blur-xl dark:border-zinc-800 dark:bg-black/30">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 font-black text-white">
+              R
             </div>
 
-            <h1 className="text-5xl font-black leading-tight md:text-6xl">
-              Bantu desain lebih cepat, rapi, dan terarah.
+            <div className="text-xl font-black">
+              RanzAI{" "}
+              <span className="text-cyan-400">Design</span>
+            </div>
+          </div>
+
+          <div className="hidden items-center gap-5 text-sm font-medium md:flex">
+            <a href="#tools">Tools</a>
+            <a href="#workspace">Workspace</a>
+            <a href="#pricing">Pricing</a>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="flex items-center gap-2 rounded-full border border-zinc-700 px-4 py-2 text-sm"
+            >
+              {darkMode ? <Sun size={16} /> : <Moon size={16} />}
+              {darkMode ? "Light" : "Dark"}
+            </button>
+
+            <Link
+              href="/tools/design-brief"
+              className="rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-5 py-2 text-sm font-bold text-white"
+            >
+              Open Workspace
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      {/* HERO */}
+      <section className="mx-auto max-w-7xl px-6 py-24">
+        <div className="grid items-center gap-14 lg:grid-cols-2">
+          <div>
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-400">
+              ✦ AI Percetakan Workspace
+            </div>
+
+            <h1 className="text-5xl font-black leading-tight md:text-7xl">
+              AI Banner & Poster{" "}
+              <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                Generator
+              </span>
             </h1>
 
-            <p className="mt-6 max-w-xl text-lg leading-8 text-zinc-300">
-              RanzAI Design membantu membuat brief desain, konsep visual,
-              warna, font, copywriting, layout, dan prompt AI untuk kebutuhan
-              desain digital.
+            <p className="mt-6 max-w-xl text-lg leading-8 text-zinc-500 dark:text-zinc-400">
+              Workspace AI modern untuk membuat desain spanduk,
+              baliho, banner, poster, dan kebutuhan percetakan lebih cepat.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 href="/tools/design-brief"
-                className="rounded-full bg-cyan-400 px-6 py-3 font-bold text-black"
+                className="rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-7 py-4 font-bold text-white shadow-xl shadow-cyan-500/20"
               >
-                Mulai Buat Brief
+                Mulai Design
               </Link>
 
-              <a
-                href="#tools"
-                className="rounded-full border border-zinc-700 px-6 py-3 font-semibold text-zinc-200"
-              >
-                Lihat Tools
-              </a>
+              <button className="rounded-2xl border border-zinc-300 px-7 py-4 font-semibold dark:border-zinc-700">
+                Explore Templates
+              </button>
             </div>
           </div>
 
-          <div className="rounded-3xl border border-zinc-800 bg-zinc-950 p-6 shadow-2xl">
-            <div className="rounded-2xl bg-gradient-to-br from-cyan-400/20 to-purple-500/20 p-6">
-              <p className="text-sm text-cyan-300">Generated Design Direction</p>
-              <h2 className="mt-4 text-3xl font-bold">
-                Poster Promo Minuman Segar
-              </h2>
-              <p className="mt-4 text-zinc-300">
-                Style: bold streetwear ads, warna cyan-kuning, headline besar,
-                komposisi produk di tengah, CTA kuat.
-              </p>
+          {/* PREVIEW */}
+          <div
+            id="workspace"
+            className="overflow-hidden rounded-[32px] border border-zinc-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-950"
+          >
+            <div className="h-2 bg-gradient-to-r from-cyan-400 via-blue-500 to-emerald-400"></div>
 
-              <div className="mt-6 grid gap-3 text-sm">
-                <div className="rounded-xl bg-black/30 p-4">Color: Cyan, Yellow, Black</div>
-                <div className="rounded-xl bg-black/30 p-4">Font: Bold Sans Display</div>
-                <div className="rounded-xl bg-black/30 p-4">Mood: Fresh, Energetic, Youth</div>
+            <div className="flex items-center justify-between border-b border-zinc-200 px-6 py-4 dark:border-zinc-800">
+              <div className="flex items-center gap-3 text-sm font-bold">
+                🖼 RanzAI Workspace
               </div>
+
+              <div className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-bold text-emerald-400">
+                LIVE
+              </div>
+            </div>
+
+            <div className="relative flex h-[520px] items-center justify-center overflow-hidden bg-gradient-to-br from-cyan-50 via-blue-50 to-emerald-50 dark:from-[#09111f] dark:via-[#07131f] dark:to-[#071917]">
+              <div className="absolute left-10 top-10 h-72 w-72 rounded-full bg-cyan-400/10 blur-3xl"></div>
+              <div className="absolute bottom-10 right-10 h-72 w-72 rounded-full bg-blue-500/10 blur-3xl"></div>
+
+              <div className="relative z-10 px-8 text-center">
+                <div className="mb-4 text-xs font-bold uppercase tracking-[0.25em] text-cyan-400">
+                  Preview Area
+                </div>
+
+                <h2 className="text-5xl font-black leading-tight md:text-6xl">
+                  HASIL{" "}
+                  <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                    GENERATE
+                  </span>
+                </h2>
+
+                <p className="mt-5 text-zinc-500 dark:text-zinc-400">
+                  Preview desain AI akan tampil di sini
+                </p>
+
+                <div className="mt-8 flex flex-wrap justify-center gap-3">
+                  <div className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-400">
+                    🎨 Auto Color
+                  </div>
+
+                  <div className="rounded-full border border-blue-400/20 bg-blue-400/10 px-4 py-2 text-sm font-semibold text-blue-400">
+                    ⚡ Fast Render
+                  </div>
+
+                  <div className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-400">
+                    🖼 HD Export
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 border-t border-zinc-200 p-5 dark:border-zinc-800 md:grid-cols-4">
+              <button className="rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 px-4 py-3 text-sm font-bold text-white">
+                Download PNG
+              </button>
+
+              <button className="rounded-xl border border-zinc-300 px-4 py-3 text-sm font-bold dark:border-zinc-700">
+                Export PDF
+              </button>
+
+              <button className="rounded-xl border border-zinc-300 px-4 py-3 text-sm font-bold dark:border-zinc-700">
+                Regenerate
+              </button>
+
+              <button className="rounded-xl border border-zinc-300 px-4 py-3 text-sm font-bold dark:border-zinc-700">
+                Edit Lagi
+              </button>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="tools" className="mx-auto max-w-6xl px-6 py-20">
-        <div className="mb-10">
-          <h2 className="text-4xl font-black">Tools Utama</h2>
-          <p className="mt-3 text-zinc-400">
-            Pondasi awal RanzAI Design sebagai tools bantu desain.
+      {/* TOOLS */}
+      <section id="tools" className="mx-auto max-w-7xl px-6 py-16">
+        <div className="mb-12">
+          <h2 className="text-4xl font-black">
+            Tools Percetakan
+          </h2>
+
+          <p className="mt-4 text-zinc-500 dark:text-zinc-400">
+            Dibangun khusus untuk kebutuhan banner, baliho, poster, dan desain percetakan modern.
           </p>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-3">
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {tools.map((tool) => {
             const Icon = tool.icon;
 
             return (
               <div
                 key={tool.title}
-                className="rounded-3xl border border-zinc-800 bg-zinc-950 p-6"
+                className="rounded-3xl border border-zinc-200 bg-white p-7 transition-all hover:-translate-y-1 hover:shadow-2xl dark:border-zinc-800 dark:bg-zinc-950"
               >
-                <Icon className="mb-5 h-8 w-8 text-cyan-400" />
-                <h3 className="text-xl font-bold">{tool.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-zinc-400">
+                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-400/20 to-blue-500/20 text-cyan-400">
+                  <Icon size={26} />
+                </div>
+
+                <h3 className="text-2xl font-black">
+                  {tool.title}
+                </h3>
+
+                <p className="mt-4 leading-7 text-zinc-500 dark:text-zinc-400">
                   {tool.desc}
                 </p>
               </div>
@@ -139,38 +244,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="pricing" className="mx-auto max-w-6xl px-6 py-20">
-        <div className="rounded-3xl border border-zinc-800 bg-zinc-950 p-8 md:p-12">
-          <h2 className="text-4xl font-black">Mulai dari versi gratis</h2>
-          <p className="mt-4 max-w-2xl text-zinc-400">
-            MVP awal fokus ke penggunaan harian terbatas. Sistem credit dan
-            payment bisa ditambahkan setelah tools utama stabil.
-          </p>
-
-          <div className="mt-8 grid gap-5 md:grid-cols-3">
-            <div className="rounded-2xl border border-zinc-800 p-6">
-              <h3 className="text-xl font-bold">Free</h3>
-              <p className="mt-2 text-zinc-400">Limit harian basic.</p>
-              <p className="mt-6 text-3xl font-black">Rp0</p>
-            </div>
-
-            <div className="rounded-2xl border border-cyan-400 bg-cyan-400/10 p-6">
-              <h3 className="text-xl font-bold">Creator</h3>
-              <p className="mt-2 text-zinc-400">Untuk kreator aktif.</p>
-              <p className="mt-6 text-3xl font-black">Coming Soon</p>
-            </div>
-
-            <div className="rounded-2xl border border-zinc-800 p-6">
-              <h3 className="text-xl font-bold">Business</h3>
-              <p className="mt-2 text-zinc-400">Untuk UMKM dan tim kecil.</p>
-              <p className="mt-6 text-3xl font-black">Coming Soon</p>
-            </div>
-          </div>
+      {/* FOOTER */}
+      <footer
+        id="pricing"
+        className="border-t border-zinc-200 px-6 py-10 text-center dark:border-zinc-800"
+      >
+        <div className="text-sm text-zinc-500 dark:text-zinc-400">
+          RanzAI Design — Human-Led AI Creation by Rizky Reranza
         </div>
-      </section>
-
-      <footer id="about" className="border-t border-zinc-900 px-6 py-8 text-center text-sm text-zinc-500">
-        RanzAI Design — Human-Led AI Creation by Rizky Reranza.
       </footer>
     </main>
   );
